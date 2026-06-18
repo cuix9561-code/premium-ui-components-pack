@@ -77,16 +77,19 @@ export function ButtonGroup({
   onSelect,
   variant = 'outline',
   size = 'md',
-}: ButtonGroupProps) {
+  disabled = false,
+}: ButtonGroupProps & { disabled?: boolean }) {
   return (
     <div className="inline-flex rounded-lg overflow-hidden border border-slate-700 divide-x divide-slate-700">
       {items.map((item) => (
         <button
           key={item.value}
           onClick={() => onSelect(item.value)}
+          disabled={disabled}
           className={`
             px-4 py-2 text-sm font-medium transition-all duration-150
             flex items-center gap-2
+            disabled:opacity-50 disabled:cursor-not-allowed
             ${
               selected === item.value
                 ? 'bg-emerald-600 text-white'
