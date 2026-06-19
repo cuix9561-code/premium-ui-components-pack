@@ -16,6 +16,7 @@
 | **ButtonGroup** | Versatile button system with 4 variants (primary, secondary, outline, ghost), 3 sizes, and built-in toggle group |
 | **Navbar** | Fully responsive navigation bar with mobile hamburger menu, badge support, CTA button, sticky/transparent modes |
 | **PricingPanel** | Premium pricing tier display with interval toggle, highlighted "popular" cards, feature lists, and CTA buttons |
+| **PricingCardToggle** | Apple-style monthly/yearly toggle switch with animated pricing cards — Standard, Pro, and Enterprise tiers with gradient badges |
 
 ### 🎯 ButtonGroup
 
@@ -138,6 +139,65 @@ const tiers = [
 | `onIntervalChange` | `fn` | — | Interval toggle handler |
 | `compact` | `boolean` | `false` | 2-column layout |
 
+### 💳 PricingCardToggle
+
+An Apple-style interactive membership subscription card group with a seamless monthly/yearly toggle switch. Features smooth price animations, gradient badges, and three tiers out of the box.
+
+```tsx
+import { PricingCardToggle, defaultPricingTiers } from './components/PricingCardToggle';
+
+function PricingPage() {
+  const handleTierSelect = (tier, interval) => {
+    console.log(`Selected ${tier.name} (${interval})`);
+    // Redirect to checkout or open payment modal
+  };
+
+  return (
+    <PricingCardToggle
+      tiers={defaultPricingTiers}
+      defaultInterval="monthly"
+      onTierSelect={handleTierSelect}
+      onIntervalChange={(interval) => console.log('Switched to', interval)}
+    />
+  );
+}
+```
+
+**Props — PricingCardToggle**
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `tiers` | `PricingTier[]` | required | Array of pricing configurations |
+| `defaultInterval` | `'monthly' \| 'yearly'` | `'monthly'` | Initial billing interval |
+| `onIntervalChange` | `(interval) => void` | — | Called when toggle switches |
+| `onTierSelect` | `(tier, interval) => void` | — | Called when a CTA is clicked |
+| `className` | `string` | `''` | Additional wrapper classes |
+
+**PricingTier Type**
+
+```ts
+interface PricingTier {
+  id: string;
+  name: string;
+  description: string;
+  monthlyPrice: number;
+  yearlyPrice: number;
+  features: string[];
+  highlighted?: boolean;   // Highlights card with border + shadow
+  badge?: string;           // e.g. "Most Popular"
+  cta: string;
+  onCta?: () => void;
+}
+```
+
+**Key Features**
+
+- 🎚️ **Apple-style toggle switch** — Smooth sliding indicator with indigo glow on active state
+- 💰 **Animated pricing** — Prices transition at `duration-300` when switching between monthly and yearly
+- 🏆 **Gradient "Most Popular" badge** — Indigo-to-pink gradient pill with breathing shadow effect
+- 📱 **Responsive grid** — Single column on mobile, 3-column on desktop with Pro card scaling up
+- 💾 **TypeScript-first** — Full type definitions for props and state
+
 ## 🚀 Getting Started
 
 ### 1. Install Dependencies
@@ -160,6 +220,7 @@ cp -r components/ your-project/src/
 import { Button } from './components/ButtonGroup';
 import { Navbar } from './components/Navbar';
 import { PricingPanel } from './components/PricingPanel';
+import { PricingCardToggle } from './components/PricingCardToggle';
 ```
 
 ### 4. Tailwind Config (Optional)
@@ -183,11 +244,12 @@ module.exports = {
 ```
 premium-ui-components-pack/
 ├── components/
-│   ├── ButtonGroup.tsx    # Button system + segmented group
-│   ├── Navbar.tsx         # Responsive navigation bar
-│   └── PricingPanel.tsx   # Premium pricing display
-├── README.md              # This file
-└── LICENSE                # MIT License
+│   ├── ButtonGroup.tsx        # Button system + segmented group
+│   ├── Navbar.tsx             # Responsive navigation bar
+│   ├── PricingPanel.tsx       # Premium pricing display
+│   └── PricingCardToggle.tsx  # Apple-style pricing toggle with animated cards
+├── README.md                  # This file
+└── LICENSE                    # MIT License
 ```
 
 ## 📄 License
